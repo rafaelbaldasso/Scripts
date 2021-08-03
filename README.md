@@ -8,6 +8,7 @@ My scripts/tools
 * [**files_search.sh**](https://github.com/Kothmun/Tools/blob/main/files_search.sh) - Shell script to search for files in a website
 * [**ftp_anonymous.py**](https://github.com/Kothmun/Tools/blob/main/ftp_anonymous.py) - Python script to test FTP anonymous login
 * [**ftp_interaction.py**](https://github.com/Kothmun/Tools/blob/main/ftp_interaction.py) - Python script to test a login interaction with FTP servers
+* [**hashcode.py**](https://github.com/Kothmun/Tools/blob/main/hashcode.py) - Python script for hashing/encoding strings (base64, md5, sha)
 * [**html_parsing.sh**](https://github.com/Kothmun/Tools/blob/main/html_parsing.sh) - Shell script to perform an HTML parsing of a website
 * [**metaXtract.sh**](https://github.com/Kothmun/Tools/blob/main/metaXtract.sh) - Shell script to search for indexed files in a website, download them and extract their metadata
 * [**network_port_scan.sh**](https://github.com/Kothmun/Tools/blob/main/network_port_scan.sh) - Shell script to scan for an specific open port in the network
