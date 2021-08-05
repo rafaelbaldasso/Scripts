@@ -42,7 +42,7 @@ def base64():
             print("\n" + base64.b64decode(value).decode())
             break
         else:
-            print("\n[!] Please choose one of the options 'e' or 'd'")
+            print("\n[!] Please choose one of the options!")
             continue
 
 main()
