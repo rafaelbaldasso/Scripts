@@ -21,6 +21,7 @@ My scripts/tools
 * [**port_scan.ps1**](https://github.com/Kothmun/Tools/blob/main/port_scan.ps1) - Powershell script to perform a port scan in the target host
 * [**port_scan.py**](https://github.com/Kothmun/Tools/blob/main/port_scan.py) - Python script to perform a port scan in a target host
 * [**port_scan_internal.c**](https://github.com/Kothmun/Tools/blob/main/port_scan_internal.c) - C program to perform a port scan for a host in the internal network
+* [**saltedhash_cracker.py**](https://github.com/Kothmun/Tools/blob/main/saltedhash_cracker.py) - Python script to crack salted hashes based on wordlists
 * [**sub_takeover_test.sh**](https://github.com/Kothmun/Tools/blob/main/sub_takeover_test.sh) - Shell script to test for possible subdomain takeovers
 * [**web_directories_finder.sh**](https://github.com/Kothmun/Tools/blob/main/web_directories_finder.sh) - Shell script to look for directories in a website
 * [**web_files_finder.sh**](https://github.com/Kothmun/Tools/blob/main/web_files_finder.sh) - Shell script to look for 'files.extensions' in a website
