@@ -23,8 +23,8 @@ else
     then
         for ip in {1..14}
         do
-            hping3 -S $1.$ip -c 1 2> /dev/null | grep "flags=" | cut -d " " -f2 >
-            ping $1.$ip -c 1 -W 1 2> /dev/null | grep "64 bytes" | cut -d " " -f>
+            hping3 -S $1.$ip -c 1 2> /dev/null | grep "flags=" | cut -d " " -f2 | cut -d "=" -f2 >> /tmp/results_hping.txt
+            ping $1.$ip -c 1 -W 1 2> /dev/null | grep "64 bytes" | cut -d " " -f4 | sed 's/.$//' >> /tmp/results_ping.txt
         done
     elif [ "$network" == "1" ]
     then
@@ -32,8 +32,8 @@ else
         do
             for ip1 in {1..254}
             do
-                hping3 -S $1.$ip2.$ip1 -c 1 2> /dev/null | grep "flags" | cut -d>
-                ping $1.$ip2.$ip1 -c 1 -W 1 2> /dev/null | grep "64 bytes" | cut>
+                hping3 -S $1.$ip2.$ip1 -c 1 2> /dev/null | grep "flags" | cut -d " " -f2 | cut -d "=" -f2 >> /tmp/results_hping.txt
+                ping $1.$ip2.$ip1 -c 1 -W 1 2> /dev/null | grep "64 bytes" | cut -d " " -f4 | sed 's/.$//' >> /tmp/results_ping.txt
             done
         done
     elif [ "$network" == "0" ]
@@ -44,8 +44,8 @@ else
             do
                 for ip1 in {1..254}
                 do
-                    hping3 -S $1.$ip3.$ip2.$ip1 -c 1 2> /dev/null | grep "flags">
-                    ping $1.$ip3.$ip2.$ip1 -c 1 -W 1 2> /dev/null | grep "64 byt>
+                    hping3 -S $1.$ip3.$ip2.$ip1 -c 1 2> /dev/null | grep "flags" | cut -d " " -f2 | cut -d "=" -f2 >> /tmp/results_hping.txt
+                    ping $1.$ip3.$ip2.$ip1 -c 1 -W 1 2> /dev/null | grep "64 bytes" | cut -d " " -f4 | sed 's/.$//' >> /tmp/results_ping.txt
                 done
             done
         done
