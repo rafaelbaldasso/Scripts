@@ -16,6 +16,7 @@ My scripts/tools
 * [**password_generator.py**](https://github.com/Kothmun/Tools/blob/main/password_generator.py) - Python script to generate random strong passwords with customized length
 * [**ping_sweep.ps1**](https://github.com/Kothmun/Tools/blob/main/ping_sweep.ps1) - Powershell script to perform a ping sweep in the network
 * [**ping_sweep.sh**](https://github.com/Kothmun/Tools/blob/main/ping_sweep.sh) - Shell script to perform a ping sweep in the network
+* [**ping_syn_sweep.sh**](https://github.com/Kothmun/Tools/blob/main/ping_syn_sweep.sh) - Shell script to perform a ping sweep (ICMP + SYN) in the network
 * [**port_knocker_external.sh**](https://github.com/Kothmun/Tools/blob/main/port_knocker_external.sh) - Shell script to perform port knocking against an external host
 * [**port_knocker_internal.sh**](https://github.com/Kothmun/Tools/blob/main/port_knocker_internal.sh) - Shell script to perform port knocking against an internal host
 * [**port_scan.ps1**](https://github.com/Kothmun/Tools/blob/main/port_scan.ps1) - Powershell script to perform a port scan in the target host
