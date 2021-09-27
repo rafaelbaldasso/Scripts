@@ -3,14 +3,14 @@
 if [ "$1" == "" ]
 then
     echo ""
-    echo " [#] HTML Parsing ~ by Kothmun"
+    echo " [#] HTML Parsing"
 	echo ""
     echo " [>] Usage: $0 SITE"
     echo " [>] Example: $0 www.site.com"
     echo ""
 else
     echo ""
-    echo " [#] HTML Parsing ~ by Kothmun"
+    echo " [#] HTML Parsing"
 	echo ""
     echo " [>] Resolving the URLs from $1"
 	echo ""
