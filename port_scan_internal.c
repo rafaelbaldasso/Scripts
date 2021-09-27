@@ -17,7 +17,7 @@ int main(int argc, char *argv[]){
 
     if(argc <= 1){
 
-        printf("\n [#] Port Scan (Internal) ~ by Kothmun\n");
+        printf("\n [#] Port Scan (Internal)\n");
         printf("\n [>] Usage: ./port_scan_internal HOST");
         printf("\n [>] Example: ./port_scan_internal 172.16.1.100\n");
         printf("\n");
@@ -25,7 +25,7 @@ int main(int argc, char *argv[]){
 
     } else {
 
-            printf("\n [#] Port Scan (Internal) ~ by Kothmun\n");
+            printf("\n [#] Port Scan (Internal)\n");
             printf("\n [>] Target: %s \n",dest);
             printf("\n [>] Open Ports:\n");
 
