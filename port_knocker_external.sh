@@ -3,7 +3,7 @@
 if [ "$1" == "" ]
 then
 	echo ""
-	echo " [#] Port Knocker (External) ~ by Kothmun"
+	echo " [#] Port Knocker (External)"
     	echo ""
 	echo " [>] Usage: $0 IP"
 	echo " [>] Example: $0 37.58.10.101"
@@ -13,7 +13,7 @@ then
 	echo ""
 else
 	echo ""
-	echo " [#] Port Knocker (External) ~ by Kothmun"
+	echo " [#] Port Knocker (External)"
 	echo ""
 	hping3 -S -s 1238 -p 13 -c 1 $1
 	hping3 -S -s 2879 -p 37 -c 1 $1
