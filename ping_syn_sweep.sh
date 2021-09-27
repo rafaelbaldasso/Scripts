@@ -3,63 +3,24 @@
 if [ "$1" == "" ]
 then
     echo ""
-    echo " [#] Network Scanner ~ by Kothmun"
-    echo " [>] ICMP + SYN 'ping' sweep"
-    echo " [!] This tool requires 'hping3' to run, thus it might also need 'sudo' [!]"
-    echo ""
-    echo " [>] How to use: $0 NETWORK"
-    echo " [>] Example: $0 10.10.3"
-    echo " [>] Example: $0 172.16"
-    echo ""
+    echo " > ICMP + SYN ping sweep"
+    echo " > Usage: $0 IP-RANGE"
+    echo " > Example: $0 192.168.0.1-254"
 else
     echo ""
-    echo " [>] Scanning..."
-    echo " [>] The results will be saved as net_scan.txt in the current directory."
+    echo " > Scanning..."
 
-    net="${1//[^.]}"
-    network="${#net}"
+    ip="${1%.*}"
+    full_range="${1##*.}"
+    r_begins=$(echo $full_range | cut -d "-" -f1)
+    r_ends="${1##*-}"
 
-    if [ "$network" == "2" ]
-    then
-        for ip in {1..14}
-        do
-            hping3 -S $1.$ip -c 1 2> /dev/null | grep "flags=" | cut -d " " -f2 | cut -d "=" -f2 >> /tmp/results_hping.txt
-            ping $1.$ip -c 1 -W 1 2> /dev/null | grep "64 bytes" | cut -d " " -f4 | sed 's/.$//' >> /tmp/results_ping.txt
-        done
-    elif [ "$network" == "1" ]
-    then
-        for ip2 in {0..254}
-        do
-            for ip1 in {1..254}
-            do
-                hping3 -S $1.$ip2.$ip1 -c 1 2> /dev/null | grep "flags" | cut -d " " -f2 | cut -d "=" -f2 >> /tmp/results_hping.txt
-                ping $1.$ip2.$ip1 -c 1 -W 1 2> /dev/null | grep "64 bytes" | cut -d " " -f4 | sed 's/.$//' >> /tmp/results_ping.txt
-            done
-        done
-    elif [ "$network" == "0" ]
-    then
-        for ip3 in {0..254}
-        do
-            for ip2 in {0..254}
-            do
-                for ip1 in {1..254}
-                do
-                    hping3 -S $1.$ip3.$ip2.$ip1 -c 1 2> /dev/null | grep "flags" | cut -d " " -f2 | cut -d "=" -f2 >> /tmp/results_hping.txt
-                    ping $1.$ip3.$ip2.$ip1 -c 1 -W 1 2> /dev/null | grep "64 bytes" | cut -d " " -f4 | sed 's/.$//' >> /tmp/results_ping.txt
-                done
-            done
-        done
-    else
-        echo ""
-        echo " [!] Incorrect parameters [!]"
-        echo ""
-        exit 1
-    fi
-    cat /tmp/results_hping.txt >> /tmp/results_ping.txt
-    cat /tmp/results_ping.txt | sort -n | uniq >> ./net_scan.txt
-    rm -f /tmp/results_hping.txt
-    rm -f /tmp/results_ping.txt
-    echo ""
-    echo " [>] Scan completed!"
-    echo ""
+    for ips in $(seq $r_begins $r_ends)
+    do
+	ping -c 1 -W 1 $ip.$ips 2> /dev/null | grep "64 bytes" | cut -d " " -f4 | cut -d ":" -f1 >> /tmp/ping_scan.txt;
+	hping3 -S -c 1 $ip.$ips 2> /dev/null | grep "flags=" | cut -d " " -f2 | cut -d " " -f1 | cut -d "=" -f2 >> /tmp/ping_scan.txt;
+    done
+    cat /tmp/ping_scan.txt | sort -t . -k 4,4n | uniq > $PWD/ping_scan.txt
+    #rm -f /tmp/ping_scan.txt
+    echo " > Scan completed. Results saved to a file at $PWD/ping_scan.txt."
 fi
