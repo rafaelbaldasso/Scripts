@@ -1,14 +1,14 @@
 param($target)
 if(!$target) {
     echo ""
-    echo " [#] Port Scan ~ by Kothmun"   
+    echo " [#] Port Scan"   
     echo ""
     echo " [>] Usage: .\port_scan.ps1 HOST"
     echo " [>] Example: .\port_scan.ps1 172.16.1.100"
     echo ""
 } else {
     echo ""
-    echo " [#] Port Scan ~ by Kothmun"
+    echo " [#] Port Scan"
     echo ""
     echo " [>] Target: $target"
     echo ""
