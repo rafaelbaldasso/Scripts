@@ -4,14 +4,14 @@
 if [ "$1" == "" ] || [ "$2" == "" ] || [ "$3" == "" ]
 then
 	echo ""
-	echo " [#] Web Files Finder ~ by Kothmun"
+	echo " [#] Web Files Finder"
 	echo ""
 	echo " [>] Usage: $0 SITE FILENAMES_LIST EXTENSIONS_LIST"
 	echo " [>] Example: $0 site.com files.txt ext.txt"
 	echo ""
 else
 	echo ""
-	echo " [#] Web Files Finder ~ by Kothmun"
+	echo " [#] Web Files Finder"
 	echo ""
 
 for file in $(cat $2)
