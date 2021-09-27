@@ -3,7 +3,7 @@
 if [ "$1" == "" ] || [ "$2" == "" ]
 then
         echo ""
-        echo " [#] Files Search ~ by Kothmun"
+        echo " [#] Files Search"
         echo ""
         echo " [>] Usage: $0 SITE EXTENSION"
         echo " [>] Example: $0 site.com pdf"
@@ -12,7 +12,7 @@ then
         echo ""
 else
         echo ""
-        echo " [#] Files Search ~ by Kothmun"
+        echo " [#] Files Search"
         echo ""
         echo " [>] URLs:"
         echo ""
