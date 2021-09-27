@@ -21,6 +21,6 @@ else
 	hping3 -S -c 1 $ip.$ips 2> /dev/null | grep "flags=" | cut -d " " -f2 | cut -d " " -f1 | cut -d "=" -f2 >> /tmp/ping_scan.txt;
     done
     cat /tmp/ping_scan.txt | sort -t . -k 4,4n | uniq > $PWD/ping_scan.txt
-    #rm -f /tmp/ping_scan.txt
+    rm -f /tmp/ping_scan.txt
     echo " > Scan completed. Results saved to a file at $PWD/ping_scan.txt."
 fi
