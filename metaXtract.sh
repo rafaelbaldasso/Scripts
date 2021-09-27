@@ -3,7 +3,7 @@
 if [ "$1" == "" ] || [ "$2" == "" ]
 then
         echo ""
-        echo -e " \033[38;2;0;255;0m[#] MetaXtract ~ by Kothmun\033[m"
+        echo -e " \033[38;2;0;255;0m[#] MetaXtract\033[m"
 	echo ""
         echo -e " \033[38;2;0;255;255m[>] Usage: $0 SITE EXTENSION\033[m"
         echo -e " \033[38;2;0;255;255m[>] Example: $0 site.com pdf\033[m"
@@ -12,7 +12,7 @@ then
         echo ""
 else
         echo ""
-        echo -e " \033[38;2;0;255;0m[#] MetaXtract ~ by Kothmun\033[m"
+        echo -e " \033[38;2;0;255;0m[#] MetaXtract\033[m"
         echo ""
 	echo -e " \033[38;2;0;255;255m[>] Task: Extract metadata from $2 files at $1\033[m"
 
