@@ -3,11 +3,11 @@
 import socket,os,sys
 
 if len(sys.argv) <= 1:
-    print("\n [#] FTP Anonymous Login Test ~ by Kothmun\n")
+    print("\n [#] FTP Anonymous Login Test\n")
     print(" [>] Usage: ./ftp_anonymous.py HOST")
     print(" [>] Example: ./ftp_anonymous.py 172.16.1.100\n")
 else:
-    print("\n [#] FTP Anonymous Login Test ~ by Kothmun\n")
+    print("\n [#] FTP Anonymous Login Test\n")
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.connect((sys.argv[1],21))
     print(" [>] Banner:",s.recv(1024).decode())
