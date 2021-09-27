@@ -2,7 +2,7 @@
 if [ "$1" == "" ]
 then
 	echo ""
-	echo " [#] Port Knocker (Internal) ~ by Kothmun"
+	echo " [#] Port Knocker (Internal)"
     	echo ""
 	echo " [>] Usage: $0 NETWORK"
 	echo " [>] Example: $0 172.16.1.100"
@@ -12,7 +12,7 @@ then
 	echo ""
 else
 	echo ""
-	echo " [#] Port Knocker (Internal) ~ by Kothmun"
+	echo " [#] Port Knocker (Internal)"
     	echo ""
 	
 	for ip in {1..254};
