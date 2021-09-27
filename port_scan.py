@@ -3,11 +3,11 @@
 import socket,sys
 
 if len(sys.argv) <= 1:
-        print("\n [#] Port Scan ~ by Kothmun\n")
+        print("\n [#] Port Scan\n")
         print(" [>] Usage: ./port_scan.py HOST")
         print(" [>] Example: ./port_scan.py 172.16.1.100\n")
 else:
-        print("\n [#] Port Scan ~ by Kothmun\n")
+        print("\n [#] Port Scan\n")
         print(" [>] Target: {}\n".format(sys.argv[1]))
         print(" [>] Open Ports:")
 
