@@ -3,7 +3,7 @@
 if [ "$1" == "" ] || [ "$2" == "" ]
 then
     echo ""
-    echo " [#] Network Port Scan ~ by Kothmun"
+    echo " [#] Network Port Scan"
     echo ""
     echo " [>] Usage: $0 NETWORK PORT"
     echo " [>] Example: $0 172.16.1 80"
@@ -12,7 +12,7 @@ then
     echo ""
 else
     echo ""
-    echo " [#] Network Port Scan ~ by Kothmun"
+    echo " [#] Network Port Scan"
     echo ""
 	
 	for ip in {1..14};
