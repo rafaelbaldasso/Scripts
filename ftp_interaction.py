@@ -2,7 +2,7 @@
 
 import socket
 
-print("\n [#] FTP Server Login Interaction ~ by Kothmun\n")
+print("\n [#] FTP Server Login Interaction\n")
 
 ip = input(" [>] Type the IP or URL: ")
 port = 21
