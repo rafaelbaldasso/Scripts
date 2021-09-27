@@ -3,14 +3,14 @@
 if [ "$1" == "" ]
 then
     echo ""
-    echo " [#] Ping Sweep ~ by Kothmun"
+    echo " [#] Ping Sweep"
 	echo ""
     echo " [>] Usage: $0 NETWORK"
     echo " [>] Example: $0 192.168.1"
     echo ""
 else
     echo ""
-    echo " [#] Ping Sweep ~ by Kothmun"
+    echo " [#] Ping Sweep"
     echo ""
 	echo " [+] IPs:"
 
