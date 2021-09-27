@@ -1,5 +1,5 @@
 echo ""
-echo " [#] Web Server Recon ~ by Kothmun"
+echo " [#] Web Server Recon"
 echo ""
 $site = Read-Host " [>] Target"
 $web = Invoke-WebRequest -uri "$site" -Method Options
