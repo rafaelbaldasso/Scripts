@@ -2,7 +2,7 @@
 
 import requests
 
-print("\n [#] Web Server Info ~ by Kothmun")
+print("\n [#] Web Server Info")
 
 addr = input("\n [>] Site: ")
 url = "http://"+addr
