@@ -3,14 +3,14 @@
 if [ "$1" == "" ] || [ "$2" == "" ]
 then
 	echo ""
-	echo " [#] DNS Recon ~ by Kothmun"
+	echo " [#] DNS Recon"
 	echo ""
 	echo " [>] Usage: $0 SITE WORDLIST"
 	echo " [>] Example: $0 site.com list.txt"
 	echo ""
 else	
 	echo ""
-	echo " [#] DNS Recon ~ by Kothmun"
+	echo " [#] DNS Recon"
 	echo ""
 	
 	for word in $(cat $2);
