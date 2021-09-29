@@ -18,9 +18,9 @@ else
 
     for ips in $(seq $r_begins $r_ends)
     do
+    	echo -en " > Current IP: $ip.$ips\r"
 	ping -c 1 -W 1 $ip.$ips 2> /dev/null | grep "64 bytes" | cut -d " " -f4 | cut -d ":" -f1 >> /tmp/ping_sweep.txt;
 	hping3 -S -c 1 $ip.$ips 2> /dev/null | grep "flags=" | cut -d " " -f2 | cut -d " " -f1 | cut -d "=" -f2 >> /tmp/ping_sweep.txt;
-    	echo -en " > Current IP: $ip.$ips\r"
     done
     cat /tmp/ping_sweep.txt | sort -t . -k 4,4n | uniq >> $PWD/ping_sweep.txt
     rm -f /tmp/ping_sweep.txt
