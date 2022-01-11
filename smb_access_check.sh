@@ -1,14 +1,16 @@
 #!/bin/bash
 
-if [ "$1" == "" ]
+# If parameters are empty, display how to use the script
+if [ "$1" == "" ] || [ "$2" == "" ]
 then
     echo ""
-    echo " [>] Usage: $0 targetIP"
+    echo " [>] Usage: $0 targetIP WORDLIST"
 else
+    # Create 2 lists to store the shares names during the tests
     found=()
     access=()
-    # More shares can be added to the list below
-    shares="C$ ADMIN$ IPC$ FAX$ PRINT$ D$ E$"
+    # Provide a wordlist with share names to enumerate
+    shares=$(cat $2)
     for share in $shares;do
 	# Default user is null %, no password, empty command string
         command=$(smbclient \\\\$1\\$share -U '%' -N -c '')
