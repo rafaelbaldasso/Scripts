@@ -1,6 +1,7 @@
 # Tools
 My scripts/tools
 
+* [**auto_scan.sh**](https://github.com/rafaelbaldasso/Tools/blob/main/auto_scan.sh) - Shell script to automate port scans, providing an output file with the results 
 * [**banner_grabbing.py**](https://github.com/rafaelbaldasso/Tools/blob/main/banner_grabbing.py) - Python script to grab the service banner from a target's open port 
 * [**dns_recon.sh**](https://github.com/rafaelbaldasso/Tools/blob/main/dns_recon.sh) - Shell script to perform a DNS brute-force search
 * [**dns_reverse_search.sh**](https://github.com/rafaelbaldasso/Tools/blob/main/dns_reverse_search.sh) - Shell script to perform a DNS reverse lookup
