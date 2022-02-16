@@ -26,6 +26,7 @@ My scripts/tools
 * [**saltedhash_cracker.py**](https://github.com/rafaelbaldasso/Tools/blob/main/saltedhash_cracker.py) - Python script to crack salted hashes based on wordlists
 * [**smb_access_check.sh**](https://github.com/0xDuskr/Tools/blob/main/smb_access_check.sh) - Shell script to test SMB shares' access 
 * [**sub_takeover_test.sh**](https://github.com/rafaelbaldasso/Tools/blob/main/sub_takeover_test.sh) - Shell script to test for possible subdomain takeovers
+* [**sub_collector.sh**](https://github.com/0xDuskr/Tools/blob/main/sub_collector.sh) - Shell script to enumerate and validate alive subdomains
 * [**web_directories_finder.sh**](https://github.com/rafaelbaldasso/Tools/blob/main/web_directories_finder.sh) - Shell script to look for directories in a website
 * [**web_files_finder.sh**](https://github.com/rafaelbaldasso/Tools/blob/main/web_files_finder.sh) - Shell script to look for 'files.extensions' in a website
 * [**web_server_info.py**](https://github.com/rafaelbaldasso/Tools/blob/main/web_server_info.py) - Python script to perform a recon on a target web server 
