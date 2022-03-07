@@ -16,7 +16,7 @@ def welcome():
 
 def start():
     length = pass_length()
-    symbols = "!@#$%&*()[]{}\/<>,.-+="
+    symbols = "!@#$%&*,.-+="
     characters = string.ascii_letters + string.digits + symbols  # Optional for more symbols: string.punctuation
     password = pass_generator(length, characters)
     prints_result(password)
