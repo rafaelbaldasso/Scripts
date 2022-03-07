@@ -2,6 +2,8 @@
 #include <sys/socket.h>
 #include <netdb.h>
 
+/* To compile: gcc port_scan_internal.c -o port_scan_internal */
+
 int main(int argc, char *argv[]){
 
     int mysocket;
@@ -20,7 +22,6 @@ int main(int argc, char *argv[]){
         printf("\n [#] Port Scan (Internal)\n");
         printf("\n [>] Usage: ./port_scan_internal HOST");
         printf("\n [>] Example: ./port_scan_internal 172.16.1.100\n");
-        printf("\n");
         return 0;
 
     } else {
@@ -47,6 +48,5 @@ int main(int argc, char *argv[]){
                 close(connects);
             }
             }
-    printf("\n");
     }
 }
