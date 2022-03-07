@@ -23,7 +23,7 @@
 * [**dns_recon.sh**](https://github.com/rafaelbaldasso/Tools/blob/main/Shell/dns_recon.sh) - Shell script to perform a DNS brute-force search
 * [**dns_reverse_search.sh**](https://github.com/rafaelbaldasso/Tools/blob/main/Shell/dns_reverse_search.sh) - Shell script to perform a DNS reverse lookup
 * [**dns_zone_transfer.sh**](https://github.com/rafaelbaldasso/Tools/blob/main/Shell/dns_zone_transfer.sh) - Shell script to attempt a DNS zone transfer
-* [**files_search.sh**](https://github.com/rafaelbaldasso/Tools/blob/main/Shell/files_search.sh) - Shell script to search for files in a website
+* [**dorking_files.sh**](https://github.com/rafaelbaldasso/Tools/blob/main/Shell/dorking_files.sh) - Shell script to perform a google dorking and search for files in a website
 * [**hashing_wordlist.sh**](https://github.com/rafaelbaldasso/Tools/blob/main/Shell/hashing_wordlist.sh) - Shell script to take a wordlist and hash the strings in it to create a new wordlist
 * [**html_parsing.sh**](https://github.com/rafaelbaldasso/Tools/blob/main/Shell/html_parsing.sh) - Shell script to perform an HTML parsing of a website
 * [**metaXtract.sh**](https://github.com/rafaelbaldasso/Tools/blob/main/Shell/metaXtract.sh) - Shell script to search for indexed files in a website, download them and extract their metadata
