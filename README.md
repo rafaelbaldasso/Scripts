@@ -10,13 +10,14 @@
 
 ## Python
 * [**banner_grabbing.py**](https://github.com/rafaelbaldasso/Tools/blob/main/Python/banner_grabbing.py) - Python script to grab the service banner from a target's open port 
-* [**dns_resolver.py**](https://github.com/rafaelbaldasso/Tools/blob/main/Python/dns_resolver.py) - Python script to enumerate DNS records
+* [**dns_enumeration.py**](https://github.com/rafaelbaldasso/Tools/blob/main/Python/dns_enumeration.py) - Python script to enumerate DNS records
 * [**ftp_anonymous.py**](https://github.com/rafaelbaldasso/Tools/blob/main/Python/ftp_anonymous.py) - Python script to test FTP anonymous login
 * [**ftp_interaction.py**](https://github.com/rafaelbaldasso/Tools/blob/main/Python/ftp_interaction.py) - Python script to test a login interaction with FTP servers
 * [**hashcode.py**](https://github.com/rafaelbaldasso/Tools/blob/main/Python/hashcode.py) - Python script for hashing/encoding strings (base64, md5, sha)
 * [**password_generator.py**](https://github.com/rafaelbaldasso/Tools/blob/main/Python/password_generator.py) - Python script to generate random strong passwords with customized length
 * [**port_scan.py**](https://github.com/rafaelbaldasso/Tools/blob/main/Python/port_scan.py) - Python script to perform a port scan in a target host
 * [**saltedhash_cracker.py**](https://github.com/rafaelbaldasso/Tools/blob/main/Python/saltedhash_cracker.py) - Python script to crack salted hashes based on wordlists
+* [**subdomain_enum.py**](https://github.com/rafaelbaldasso/Tools/blob/main/Python/subdomain_enum.py) - Python script to enumerate subdomains based on DNS 'A' records
 * [**web_server_info.py**](https://github.com/rafaelbaldasso/Tools/blob/main/Python/web_server_info.py) - Python script to perform a recon on a target web server
 
 ## Shell
