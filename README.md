@@ -22,6 +22,7 @@
 
 ## Shell
 * [**auto_scan.sh**](https://github.com/rafaelbaldasso/Tools/blob/main/Shell/auto_scan.sh) - automate port scans, providing an output file with the results
+* [**dirb_cfg.sh**](https://github.com/rafaelbaldasso/Tools/blob/main/Shell/dirb_cfg.sh) - easier dirb configuration with the most common parameters
 * [**dns_recon.sh**](https://github.com/rafaelbaldasso/Tools/blob/main/Shell/dns_recon.sh) - perform a DNS brute-force search
 * [**dns_reverse_search.sh**](https://github.com/rafaelbaldasso/Tools/blob/main/Shell/dns_reverse_search.sh) - perform a DNS reverse lookup
 * [**dns_zone_transfer.sh**](https://github.com/rafaelbaldasso/Tools/blob/main/Shell/dns_zone_transfer.sh) - attempt a DNS zone transfer
