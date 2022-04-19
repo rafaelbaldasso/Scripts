@@ -1,6 +1,5 @@
-#!/bin/bash                                                                                                                                                                            [2/305]
-                                                                                                                                                                                              
-if [ "$1" == "" ] || [ "$2" == "" ] || [ "$3" == "" ] || [ "$4" == "" ]                                                                                                                       
+#!/bin/bash                                                                                                                                                                                   
+if [ "$1" == "" ] || [ "$2" == "" ] || [ "$3" == "" ] || [ "$4" == "" ]
 then
     echo ""
     echo " [>] Usage: $0 <target> <wordlist> <delay (in ms)> <recursion (y=yes/n=no)> <optional:extensions>"
