@@ -23,11 +23,13 @@ then
 fi
 mkdir /tmp/metaxtract_data
 
-lynx --dump "https://google.com/search?&q=site:$1+ext:$2" | grep ".$2" | grep "http" | cut -d "=" -f2 | egrep -v "site|google|search?" | sed 's/...$//' > /tmp/metaxtract_data/metaxtract_urls.txt
+lynx --dump "https://google.com/search?q=site%3A$1+ext%3A$2" | grep "http" | sed 's/https:\/\/www.google.com\/url?q=//' | egrep -v "site|google|search?" | sed 's/^......//' | cut -d "&" -f1 > /tmp/metaxtract_data/metaxtract_urls.txt
 
 if [ ! -s /tmp/metaxtract_data/metaxtract_urls.txt ]
 then
+	echo ""
 	echo -e " \033[38;2;255;0;0m[!] No $2 file(s) found at $1\033[m"
+	echo ""
 	rm -rf /tmp/metaxtract_data
 	exit
 else
@@ -39,15 +41,16 @@ else
 	done
 fi
 echo ""
-echo -e " \033[38;2;255;0;0m[?] Download the file(s) and extract the metadata (y/n)?\033[m" 
+echo -e " \033[38;2;255;0;0m[?] Download the file(s) and extract the metadata (y/n)?\033[m"
 read -p " [?]: " input1
 if [ "$input1" != "y" ]
 then
 	rm -rf /tmp/metaxtract_data/
 	echo ""
 	echo -e " \033[38;2;255;0;0m[#] Exiting\033[m"
+	echo ""
 	exit
-else	
+else
 	echo ""
 	echo -e " \033[38;2;0;255;255m[>] Processing...\033[m"
 	for url in $(cat /tmp/metaxtract_data/metaxtract_urls.txt);
@@ -62,7 +65,7 @@ exiftool /tmp/metaxtract_data/* >> ./MetaXtract_$2.txt
 echo ""
 echo -e " \033[38;2;255;255;0m[!] Metadata extracted to ./MetaXtract_$2.txt\033[m"
 echo ""
-echo -e " \033[38;2;255;0;0m[?] Keep the downloaded file(s) (y/n)?\033[m" 
+echo -e " \033[38;2;255;0;0m[?] Keep the downloaded file(s) (y/n)?\033[m"
 read -p " [?]: " input2
 if [ "$input2" == "y" ]
 then
@@ -77,4 +80,5 @@ fi
 rm -rf /tmp/metaxtract_data/
 echo ""
 echo -e " \033[38;2;255;0;0m[#] Exiting\033[m"
+echo ""
 fi
