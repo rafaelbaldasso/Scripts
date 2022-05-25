@@ -5,8 +5,6 @@
 # Gobuster -> apt install gobuster
 # Subfinder -> go install github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest
 # Sublist3r -> apt install sublist3r
-# OpenRDAP -> go install github.com/openrdap/rdap/cmd/rdap@latest
-# Masscan -> apt install masscan
 # Nmap -> apt install nmap
 # Seclists -> apt install seclists
 
@@ -70,12 +68,12 @@ else
 
 # Generating the final file and removing the temporary ones
 
-        echo "\\n >>> Subdomains\\n" >> recon-$domain.txt;cat $domain/subdomains-$domain.txt >> recon-$domain.txt
-        echo "\\n\\n >>> Directories/files\\n" >> recon-$domain.txt;cat $domain/discovery-$domain.txt >> recon-$domain.txt
-        echo "\\n\\n >>> TCP scan\\n" >> recon-$domain.txt;cat $domain/tcp-portscan-$domain.txt >> recon-$domain.txt
-        echo "\\n\\n >>> UDP scan\\n" >> recon-$domain.txt;cat $domain/udp-portscan-$domain.txt >> recon-$domain.txt;
+        echo "" >> recon-$domain.txt;echo " >>> Subdomains" >> recon-$domain.txt;echo "" >> recon-$domain.txt;cat $domain/subdomains-$domain.txt >> recon-$domain.txt
+        echo "" >> recon-$domain.txt;echo "" >> recon-$domain.txt;echo " >>> Directories/files" >> recon-$domain.txt;echo "" >> recon-$domain.txt;cat $domain/discovery-$domain.txt >> recon-$domain.txt
+        echo "" >> recon-$domain.txt;echo "" >> recon-$domain.txt;echo " >>> TCP scan" >> recon-$domain.txt;echo "" >> recon-$domain.txt;cat $domain/tcp-portscan-$domain.txt >> recon-$domain.txt
+        echo "" >> recon-$domain.txt;echo "" >> recon-$domain.txt;echo " >>> UDP scan" >> recon-$domain.txt;echo "" >> recon-$domain.txt;cat $domain/udp-portscan-$domain.txt >> recon-$domain.txt;
         rm -rf $domain
 
         echo ""
-        echo " [>] Scan finished."
+        echo " [>] Scan completed. Results are available at '$(pwd)/recon-$domain.txt'"
 fi
