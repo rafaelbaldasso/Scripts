@@ -21,7 +21,7 @@
 * [**web_server_info.py**](https://github.com/rafaelbaldasso/Tools/blob/main/Python/web_server_info.py) - perform a web server recon on a target
 
 ## Shell
-* [**auto_recon.sh**](https://github.com/rafaelbaldasso/Tools/blob/main/Shell/auto_recon.sh) - automated recon (subdomain/dirs/files enum, tcp/udp ports scan)
+* [**auto_recon.sh**](https://github.com/rafaelbaldasso/Tools/blob/main/Shell/auto_recon.sh) - automated recon (subdomains/directories/files enumeration, tcp/udp ports scan)
 * [**auto_scan.sh**](https://github.com/rafaelbaldasso/Tools/blob/main/Shell/auto_scan.sh) - automate port scans, providing an output file with the results
 * [**dirb_cfg.sh**](https://github.com/rafaelbaldasso/Tools/blob/main/Shell/dirb_cfg.sh) - easier dirb configuration with the most common parameters
 * [**dns_recon.sh**](https://github.com/rafaelbaldasso/Tools/blob/main/Shell/dns_recon.sh) - perform a DNS brute-force search
