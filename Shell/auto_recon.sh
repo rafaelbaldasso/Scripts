@@ -28,7 +28,7 @@ else
         sublist3r -d $target -n >> $domain/.temp-sublist3r-$domain.txt
         assetfinder -subs-only $target >> $domain/.temp-assetfinder-$domain.txt
 
-# Creating a single file
+# Generating a single file
 
         cat $domain/.temp-subfinder-$domain.txt >> $domain/.temp-subdomains-$domain.txt
         sed -i '/ '$target'/d' $domain/.temp-sublist3r-$domain.txt
@@ -68,9 +68,13 @@ else
         $query_go >> $domain/.temp-discovery-$domain.txt
         grep "200" $domain/.temp-discovery-$domain.txt | sort -u | cut -d ' ' -f1 >> $domain/discovery-$domain.txt
 
-# Removing all unnecessary files
+# Generating the final file and removing the temporary ones
 
-        rm -rf $domain/.temp-*
+        echo "\\n >>> Subdomains\\n" >> recon-$domain.txt;cat $domain/subdomains-$domain.txt >> recon-$domain.txt
+        echo "\\n\\n >>> Directories/files\\n" >> recon-$domain.txt;cat $domain/discovery-$domain.txt >> recon-$domain.txt
+        echo "\\n\\n >>> TCP scan\\n" >> recon-$domain.txt;cat $domain/tcp-portscan-$domain.txt >> recon-$domain.txt
+        echo "\\n\\n >>> UDP scan\\n" >> recon-$domain.txt;cat $domain/udp-portscan-$domain.txt >> recon-$domain.txt;
+        rm -rf $domain
 
         echo ""
         echo " [>] Scan finished."
