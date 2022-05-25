@@ -2,6 +2,7 @@
 
 ### Required Tools ###
 # Assetfinder -> go install github.com/tomnomnom/assetfinder@latest
+# Gobuster -> apt install gobuster
 # Subfinder -> go install github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest
 # Sublist3r -> apt install sublist3r
 # OpenRDAP -> go install github.com/openrdap/rdap/cmd/rdap@latest
