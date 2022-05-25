@@ -18,6 +18,6 @@ else
 
         for extension in $(cat $2);
         do
-                lynx --dump "https://google.com/search?&q=site:$1+ext:$extension" | grep ".$extension" | grep "http" |cut -d "=" -f2 | egrep -v "site|google|search?" | sed 's/...$//';
+                lynx --dump "https://google.com/search?q=site%3A$1+ext%3A$extension" | grep "http" | sed 's/https:\/\/www.google.com\/url?q=//' | egrep -v "site|google|search?" | sed 's/^......//' | cut -d "&" -f1;
         done
 fi
