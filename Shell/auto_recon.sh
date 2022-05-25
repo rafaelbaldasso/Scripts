@@ -66,7 +66,7 @@ else
 
         query_go=('gobuster dir -u '$target' -e -x pdf,txt --hide-length -r -t 10 --delay 100ms --exclude-length 0 --timeout 5s -z -q -w /usr/share/seclists/Discovery/Web-Content/common-and-portuguese.txt')
         $query_go >> $domain/.temp-discovery-$domain.txt
-        grep "200" $domain/.temp-discovery-$domain.txt | sort -u >> $domain/discovery-$domain.txt
+        grep "200" $domain/.temp-discovery-$domain.txt | sort -u | cut -d ' ' -f1 >> $domain/discovery-$domain.txt
 
 # Removing all unnecessary files
 
