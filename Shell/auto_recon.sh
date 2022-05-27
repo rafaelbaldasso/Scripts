@@ -93,9 +93,9 @@ else
 
         echo " [>] Scanning directories and files..."
 
-        query_go=('gobuster dir -u '$target' -e -x txt --hide-length -r -t 10 --delay 100ms --exclude-length 0 --timeout 5s -z -q -w /usr/share/seclists/Discovery/Web-Content/common-and-portuguese.txt')
+        query_go=('gobuster dir -u '$target' -e -x txt --hide-length -t 10 --delay 100ms --wildcard --timeout 5s -z -q -w /usr/share/seclists/Discovery/Web-Content/common-and-portuguese.txt')
         $query_go >> $domain/.temp-discovery-$domain.txt
-        cat $domain/.temp-discovery-$domain.txt | sort -u | sed 's/(Status:/\[HTTP/' | sed 's/)/\]/' | tr -d '\r' >> $domain/discovery-$domain.txt
+        cat $domain/.temp-discovery-$domain.txt | egrep "Status: 200|Status: 301" | sort -u | sed 's/(Status:/\[HTTP/' | sed 's/)/\]/' | tr -d '\r' >> $domain/discovery-$domain.txt
 
 # Generating the final file and removing the temporary ones
 
