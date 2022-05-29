@@ -1,6 +1,7 @@
 #!/bin/bash
 
-### Required Tools ###
+### Requirements
+# Python3
 # Assetfinder -> go install github.com/tomnomnom/assetfinder@latest
 # Gobuster -> apt install gobuster
 # Subfinder -> go install github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest
@@ -8,104 +9,128 @@
 # Nmap -> apt install nmap
 # Seclists -> apt install seclists
 # httpx -> go install -v github.com/projectdiscovery/httpx/cmd/httpx@latest
+# Waybackurls -> go install github.com/tomnomnom/waybackurls@latest
+# Shcheck -> wget https://raw.githubusercontent.com/santoru/shcheck/master/shcheck.py
 
 if [ "$1" == "" ]
 then
         echo ""
-        echo " [>] Usage: sudo $0 <site> <d = domain mode>"
-	echo " [>] Example domain: sudo $0 github.com d"
+        echo " [>] Usage: sudo $0 <target> <d = domain mode>"
+	echo " [>] Example domain: sudo $0 github.com -d"
 	echo " [>] Example subdomain: sudo $0 desktop.github.com"
 	echo ""
 else
-        target=$1
+        url=$1
 	echo ""
 
-# Subdomains discovery
-
-	if [ "$2" == "d" ] || [ "$2" == "D" ]
+	if [ "$2" == "-d" ] || [ "$2" == "-D" ]
 	then
 
-	        domain=`echo $target | cut -d '.' -f 1`
-	        mkdir $domain
-
-        	echo " [>] Scanning the subdomains..."
-
-	        subfinder -d $target -silent >> $domain/.temp-subfinder-$domain.txt
-        	sublist3r -d $target -n >> $domain/.temp-sublist3r-$domain.txt
-        	assetfinder -subs-only $target >> $domain/.temp-assetfinder-$domain.txt
-
-# Generating a single file
-
-	        cat $domain/.temp-subfinder-$domain.txt >> $domain/.temp-subdomains-$domain.txt
-        	sed -i '/ '$target'/d' $domain/.temp-sublist3r-$domain.txt
-        	grep $target $domain/.temp-sublist3r-$domain.txt >> $domain/.temp-subdomains-$domain.txt
-        	cat $domain/.temp-assetfinder-$domain.txt >> $domain/.temp-subdomains-$domain.txt
-        	sort -u $domain/.temp-subdomains-$domain.txt >> $domain/.subdomains-$domain.txt
-        	sed -i '/^'$target'/d' $domain/.subdomains-$domain.txt
-
-# Validating subdomains and grabbing the webserver banner
-
-		cat $domain/.subdomains-$domain.txt | httpx -silent -status-code -web-server -no-fallback -follow-redirects -no-color > $domain/.valid-subdomains-$domain.txt
-		cat $domain/.valid-subdomains-$domain.txt | sed 's/\[/\[HTTP /' | sed 's/\[\]/\[N\/A\]/' > $domain/.valid2-subdomains-$domain.txt
-		cat $domain/.valid2-subdomains-$domain.txt | sort -t/ -k 2 > $domain/subdomains-$domain.txt
-
-	        echo "" > recon-$domain.txt;echo " >>> Subdomains | Status | Web Server" >> recon-$domain.txt;echo "" >> recon-$domain.txt;cat $domain/subdomains-$domain.txt >> recon-$domain.txt
-		echo "" >> recon-$domain.txt
+	        target=`echo $url | cut -d '.' -f 1`
+	        mkdir $target
+	        
 	else
-		dom=`echo $target | cut -d '.' -f 2`
-		sub=`echo $target | cut -d '.' -f 1`
-		domain=$sub.$dom
-		rm -rf $domain
-		mkdir $domain
-
+		dom=`echo $url | cut -d '.' -f 2`
+		sub=`echo $url | cut -d '.' -f 1`
+		target=$sub.$dom
+		rm -rf $target
+		mkdir $target
 	fi
 
-# Validating the target and grabbing the banner - creating the final fine
+# Validating the target and grabbing the banner
 
 	echo " [>] Validating the target..."
 
-	echo "" >> recon-$domain.txt;echo " >>> Domain | Status | Web Server" >> recon-$domain.txt;echo "" >> recon-$domain.txt;
-	echo $target | httpx -silent -status-code -web-server -no-fallback -follow-redirects -no-color | sed 's/\[/\[HTTP /' | sed 's/\[\]/\[N\/A\]/' >> recon-$domain.txt
+	echo $url | httpx -silent -status-code -web-server -no-fallback -follow-redirects -no-color >> $target/httpx.txt
+	echo "" > recon-$target.txt;echo ">>>> Target | Status | Web Server" >> recon-$target.txt;echo "" >> recon-$target.txt;
+	cat $target/httpx.txt | sed 's/\[/\[HTTP /' | sed 's/\[\]/\[N\/A\]/' >> recon-$target.txt
+	
+# Subdomains discovery
 
-# Open TCP ports discovery
+	if [ "$2" == "-d" ] || [ "$2" == "-D" ]
+	then
+        	echo " [>] Scanning the subdomains..."
 
-        echo " [>] Scanning ports..."
+	        subfinder -d $url -silent >> $target/subs.txt
+	        
+#	        sublist3r -d $url -n >> $target/sublist3r.txt
+#        	sed -i '/ '$url'/d' $target/sublist3r.txt
+#        	cat $target/sublist3r.txt | grep $url | grep -v virustotal >> $target/subs.txt        	
 
-        query_nmap=('sudo nmap -n -Pn -sS -T4 -p- --open -v0 '$target' -oN '$domain'/.temp-nmap-'$domain'-ports.txt')
-        $query_nmap
+        	assetfinder -subs-only $url >> $target/subs.txt
 
-# TCP ports scan
+        	sort -u $target/subs.txt >> $target/subdomains.txt
+        	sed -i '/^'$url'/d' $target/subdomains.txt
 
-        for item in $(cat $domain/.temp-nmap-$domain-ports.txt | grep "/tcp" | cut -d '/' -f 1);do
-                list=$list,$item
-        done
-        ports=$(echo $list | sed 's/^.//')
-        query_tcp='sudo nmap -n -Pn -sSV -sC -O -p '$ports' '$target' -v0 -oN '$domain'/tcp-portscan-'$domain'.txt'
-        $query_tcp
+	# Validating subdomains and grabbing the webserver banner
 
-# UDP ports scan
+		cat $target/subdomains.txt | httpx -silent -status-code -web-server -no-fallback -follow-redirects -no-color >> $target/valid-subdomains.txt
+		cat $target/valid-subdomains.txt | sed 's/\[/\[HTTP /' | sed 's/\[\]/\[N\/A\]/' | grep -v "HTTP 404" >> $target/valid-subdomains-regex.txt
+		cat $target/valid-subdomains-regex.txt | sort -t/ -k 2 > $target/subdomains.txt
 
-        query_udp=('sudo nmap -n -Pn -sUV --top-ports=20 --open -sC -v0 '$target' -oN '$domain'/.temp-udp-portscan-'$domain'.txt')
-        $query_udp
-        cat $domain/.temp-udp-portscan-$domain.txt | grep -v "filtered" >> $domain/udp-portscan-$domain.txt
+	        echo "" >> recon-$target.txt;echo "" >> recon-$target.txt;echo ">>>> Subdomains | Status | Web Server" >> recon-$target.txt;echo "" >> recon-$target.txt;
+		cat $target/subdomains.txt >> recon-$target.txt;
+	fi
+	
+# Checking the security headers
 
-# Gobuster directories/files discovery
+	http="http://"
+	python3 shcheck.py $http$url --colours=none >> $target/shcheck-http.txt
+	cat $target/shcheck-http.txt | grep Missing | cut -d ":" -f2 | sed 's/ //' >> $target/headers-http.txt
+	echo "" >> recon-$target.txt;echo "" >> recon-$target.txt;echo ">>>> Missing security Headers (HTTP)" >> recon-$target.txt;echo "" >> recon-$target.txt;
+	cat $target/headers-http.txt >> recon-$target.txt
+	cat $target/shcheck-http.txt | grep unreachable | cut -d "(" -f1 >> recon-$target.txt
+	
+	https="https://"
+	python3 shcheck.py $https$url --colours=none >> $target/shcheck-https.txt
+	cat $target/shcheck-https.txt | grep Missing | cut -d ":" -f2 | sed 's/ //' >> $target/headers-https.txt
+	echo "" >> recon-$target.txt;echo "" >> recon-$target.txt;echo ">>>> Missing security Headers (HTTPS)" >> recon-$target.txt;echo "" >> recon-$target.txt;
+	cat $target/headers-https.txt >> recon-$target.txt
+	cat $target/shcheck-https.txt | grep unreachable | cut -d "(" -f1 >> recon-$target.txt
+
+# Directories/files discovery
 
         echo " [>] Scanning directories and files..."
 
-        query_go=('gobuster dir -u '$target' -e -x txt --hide-length -t 10 --delay 100ms --wildcard --timeout 5s -z -q -w /usr/share/seclists/Discovery/Web-Content/common-and-portuguese.txt')
-        $query_go >> $domain/.temp-discovery-$domain.txt
-        cat $domain/.temp-discovery-$domain.txt | egrep "Status: 200|Status: 301" | sort -u | sed 's/(Status:/\[HTTP/' | sed 's/)/\]/' | tr -d '\r' >> $domain/discovery-$domain.txt
+        gobuster dir -u $url -e -x txt --hide-length -t 10 --delay 100ms --wildcard --timeout 5s -z -q -w /usr/share/seclists/Discovery/Web-Content/common-and-portuguese.txt >> $target/go-discover.txt
+        cat $target/go-discover.txt | egrep "Status: 200|Status: 301" | cut -d ' ' -f1 | tr -d '\r' | sort -u >> $target/discovery.txt
+        
+        echo $url | waybackurls -no-subs >> $target/way-discovery.txt
+        sed -i '/'$url'\/$/d' $target/way-discovery.txt
+        cat $target/way-discovery.txt | egrep -v ".svg|.eot|.ttf|.woff|.css|.ico|.js|.gif|.jpg|.png|.jpeg" >> $target/discovery.txt
+        echo "" >> recon-$target.txt;echo "" >> recon-$target.txt;echo ">>>> Directories/files" >> recon-$target.txt;echo "" >> recon-$target.txt
+        cat $target/discovery.txt | sort -u >> recon-$target.txt
 
-# Generating the final file and removing the temporary ones
 
-        echo "" >> recon-$domain.txt;echo "" >> recon-$domain.txt;echo " >>> Directories/files" >> recon-$domain.txt;echo "" >> recon-$domain.txt;cat $domain/discovery-$domain.txt >> recon-$domain.txt
-        echo "" >> recon-$domain.txt;echo "" >> recon-$domain.txt;echo " >>> TCP scan" >> recon-$domain.txt;echo "" >> recon-$domain.txt;cat $domain/tcp-portscan-$domain.txt | head -n -3 | tail -n +2 >> recon-$domain.txt
-        echo "" >> recon-$domain.txt;echo "" >> recon-$domain.txt;echo " >>> UDP scan" >> recon-$domain.txt;echo "" >> recon-$domain.txt;cat $domain/udp-portscan-$domain.txt | head -n -3 | tail -n +2 >> recon-$domain.txt;
-	echo "" >> recon-$domain.txt
-        rm -rf $domain
+# TCP ports scan
+
+        echo " [>] Scanning ports..."
+
+        sudo nmap -n -Pn -sS -T4 -p- --open -v0 $url -oN $target/ports.txt
+
+        for item in $(cat $target/ports.txt | grep "/tcp" | cut -d '/' -f 1);do
+                list=$list,$item
+        done
+        ports=$(echo $list | sed 's/^.//')
+        sudo nmap -n -Pn -sSV -sC -O -p $ports $url -v0 -oN $target/tcp-scan.txt
+        
+        echo "" >> recon-$target.txt;echo "" >> recon-$target.txt;echo ">>>> TCP scan" >> recon-$target.txt;echo "" >> recon-$target.txt;
+        cat $target/tcp-scan.txt | head -n -3 | tail -n +2 >> recon-$target.txt
+
+# UDP ports scan
+
+        sudo nmap -n -Pn -sUV --top-ports=20 --open -sC -v0 $url -oN $target/udp-scan-grep.txt
+        cat $target/udp-scan-grep.txt | grep -v "filtered" >> $target/udp-scan.txt
+        
+        echo "" >> recon-$target.txt;echo "" >> recon-$target.txt;echo ">>>> UDP scan" >> recon-$target.txt;echo "" >> recon-$target.txt;
+        cat $target/udp-scan.txt | head -n -3 | tail -n +2 >> recon-$target.txt
+
+# Finishing the process
+
+	echo "" >> recon-$target.txt
+        rm -rf $target
 
         echo ""
-        echo " [>] Scan completed. Results are available at '$(pwd)/recon-$domain.txt'"
+        echo " [>] Scan completed. Results are available at '$(pwd)/recon-$target.txt'"
 	echo ""
 fi
