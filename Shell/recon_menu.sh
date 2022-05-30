@@ -42,17 +42,18 @@ do
             echo;echo ">>> Scanning..."
             c1=('subfinder -d '$target' -silent')
 	    c2=('assetfinder -subs-only '$target'')
-	    $c1 >> /tmp/subs.txt
+	    $c1 > /tmp/subs.txt
 	    $c2 >> /tmp/subs.txt
-            sort -u /tmp/subs.txt >> /tmp/subdomains.txt
+            sort -u /tmp/subs.txt > /tmp/subdomains.txt
             sed -i '/^'$target'/d' /tmp/subdomains.txt
-            c3=('httpx -silent -status-code -web-server -no-fallback -follow-redirects -no-color')
-            echo $target | $c3 > /tmp/subs.txt
+	    c3=('httpx -silent -status-code -web-server -no-fallback -follow-redirects -no-color')
+            cat /tmp/subdomains.txt | $c3 > /tmp/subs.txt
 	    cat /tmp/subs.txt | sed 's/\[/\[HTTP /' | sed 's/\[\]/\[N\/A\]/' | grep -v "HTTP 404" > /tmp/subdomains.txt
             cat /tmp/subdomains.txt | sort -t/ -k 2 > /tmp/subs.txt
             clear;echo;echo ">>> Subdomains | Status | Web Server";echo;echo "~ "$c1;echo "~ "$c2;echo "~ "$c3;echo
 	    cat /tmp/subs.txt;echo
             read -p "Press ENTER to continue"
+	    rm -rf /tmp/subs.txt /tmp/subdomains.txt
             exec $0 $1
 	    ;;
 	"Discovery")
@@ -75,6 +76,7 @@ do
 	    clear
 	    echo;echo ">>> Scanning..."
 	    c1=('nmap -n -Pn -sS -T4 -p- --open -v0 '$target'')
+	    sudo $c1 >>/tmp/ports.txt
 	    sudo $c1 | grep "/tcp" | cut -d '/' -f1 >> /tmp/ports.txt
 	    for item in $(cat /tmp/ports.txt);do
                 list=$list,$item
@@ -104,6 +106,6 @@ do
 	    clear
             break
             ;;
-        *) echo "invalid option $REPLY";;
+        *) echo "Invalid option $REPLY!";;
     esac
 done
