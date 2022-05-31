@@ -21,7 +21,6 @@
 * [**web_server_info.py**](https://github.com/rafaelbaldasso/Tools/blob/main/Python/web_server_info.py) - perform a web server recon on a target
 
 ## Shell
-* [**auto_recon.sh**](https://github.com/rafaelbaldasso/Tools/blob/main/Shell/auto_recon.sh) - automated recon (subdomains/directories/files enumeration, tcp/udp ports scan)
 * [**auto_scan.sh**](https://github.com/rafaelbaldasso/Tools/blob/main/Shell/auto_scan.sh) - automate port scans, providing an output file with the results
 * [**dirb_cfg.sh**](https://github.com/rafaelbaldasso/Tools/blob/main/Shell/dirb_cfg.sh) - easier dirb configuration with the most common parameters
 * [**dns_recon.sh**](https://github.com/rafaelbaldasso/Tools/blob/main/Shell/dns_recon.sh) - perform a DNS brute-force search
@@ -30,6 +29,7 @@
 * [**dorking_files.sh**](https://github.com/rafaelbaldasso/Tools/blob/main/Shell/dorking_files.sh) - perform a google dorking and search for files in a website
 * [**hashing_wordlist.sh**](https://github.com/rafaelbaldasso/Tools/blob/main/Shell/hashing_wordlist.sh) - take a wordlist and hash the contents into a new wordlist
 * [**html_parsing.sh**](https://github.com/rafaelbaldasso/Tools/blob/main/Shell/html_parsing.sh) - perform an HTML parsing of a website
+* [**Khitai.sh**](https://github.com/rafaelbaldasso/Tools/blob/main/Shell/Khitai.sh) - Recon toolset, work in progress
 * [**metaXtract.sh**](https://github.com/rafaelbaldasso/Tools/blob/main/Shell/metaXtract.sh) - search for indexed files in a website, download them and extract their metadata
 * [**network_port_scan.sh**](https://github.com/rafaelbaldasso/Tools/blob/main/Shell/network_port_scan.sh) - scan for an specific open port in the network hosts
 * [**ping_sweep.sh**](https://github.com/rafaelbaldasso/Tools/blob/main/Shell/ping_sweep.sh) - perform a ping sweep (ICMP) in the network
