@@ -11,6 +11,23 @@
 # Waybackurls -> go install github.com/tomnomnom/waybackurls@latest
 # Shcheck -> wget https://raw.githubusercontent.com/santoru/shcheck/master/shcheck.py
 
+clear
+echo "
+                  .
+                  |
+             .   ]#[   .
+              \_______/
+           .    ]###[    .
+            \___________/             _  __  _       _   _             _ 
+         .     ]#####[     .         | |/ / | |     (_) | |           (_)
+          \_______________/          | ' /  | |__    _  | |_    __ _   _ 
+       .      ]#######[      .       |  <   | '_ \  | | | __|  / _  | | |
+        \___]##.-----.##[___/        | . \  | | | | | | | |_  | (_| | | |
+         |_|_|_|     |_|_|_|         |_|\_\ |_| |_| |_|  \__|  \__,_| |_|
+         |_|_|_|_____|_|_|_|
+       #######################
+"
+
 if [ "$1" == "" ]
 then
     echo;echo "[>] Usage: $0 <target>"
@@ -19,7 +36,6 @@ else
 
     target=$1
     PATH=$PATH:/root/go/bin
-    clear
     echo
     echo "[>] Menu"
     echo
