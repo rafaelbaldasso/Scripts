@@ -12,6 +12,7 @@
 # Waybackurls -> go install github.com/tomnomnom/waybackurls@latest
 # Shcheck -> wget https://raw.githubusercontent.com/santoru/shcheck/master/shcheck.py
 # SSLScan -> apt install sslscan
+# WhatWeb -> apt install whatweb
 
 clear
 echo -e "\033[38;2;220;20;60m
@@ -39,8 +40,8 @@ else
     PATH=$PATH:/root/go/bin
     bold=$(tput bold)
     echo;echo -e "\033[38;2;255;228;181m* All results are saved to $(pwd)/"$target".txt\033[m";echo
-    PS3='-> '
-    options=("Security Headers" "Fingerprint Web Server" "SSL Scan" "Subdomains Enumeration" "Discovery" "TCP Ports Scan" "UDP Ports Scan" "Quit")
+    PS3=$'\n''-> '
+    options=("Security Headers" "Fingerprint Web Server" "SSL Scan" "Check WAF" "Subdomains Enumeration" "Discovery" "TCP Ports Scan" "UDP Ports Scan" "Quit")
     select opt in "${options[@]}"
     do
         case $opt in
@@ -62,12 +63,11 @@ else
                 ;;
             "Fingerprint Web Server")
                 clear;echo;echo -e "\033[38;2;0;255;0m>>> Scanning...\033[m";echo
-                c1=('httpx -silent -status-code -web-server -ip -no-fallback -no-color')
+                c1=('whatweb '$target' --colour=never')
                 c2=('curl -I '$target' -L -k -s')
                 c3=('curl -I '$target' -L -k -X OPTIONS -s')
-                echo $target | $c1 > /tmp/fingerprint1.txt
-                echo > /tmp/fingerprint.txt;echo -e "\033[38;2;220;20;60m${bold}>>> Fingerprint Web Server\033[m" >> /tmp/fingerprint.txt;echo >> /tmp/fingerprint.txt;echo -e "\033[38;2;0;255;255m~ echo "$target" | "$c1"\033[m" >> /tmp/fingerprint.txt;echo -e "\033[38;2;0;255;255m~ "$c2"\033[m" >> /tmp/fingerprint.txt;echo -e "\033[38;2;0;255;255m~ "$c3"\033[m" >> /tmp/fingerprint.txt;echo >> /tmp/fingerprint.txt
-                cat /tmp/fingerprint1.txt | sed 's/\[/\[HTTP /' | sed 's/\[\]/\[N\/A\]/' >> /tmp/fingerprint.txt;echo >> /tmp/fingerprint.txt
+                echo > /tmp/fingerprint.txt;echo -e "\033[38;2;220;20;60m${bold}>>> Fingerprint Web Server\033[m" >> /tmp/fingerprint.txt;echo >> /tmp/fingerprint.txt;echo -e "\033[38;2;0;255;255m~ "$c1"\033[m" >> /tmp/fingerprint.txt;echo -e "\033[38;2;0;255;255m~ "$c2"\033[m" >> /tmp/fingerprint.txt;echo -e "\033[38;2;0;255;255m~ "$c3"\033[m" >> /tmp/fingerprint.txt
+                sudo $c1 > /tmp/fingerprint1.txt;cat /tmp/fingerprint1.txt | sed 's/, /?/g' | tr '?' '\n' | sed 's/^http/?http/' | tr '?' '\n' >> /tmp/fingerprint.txt;echo >> /tmp/fingerprint.txt
                 $c2 | head -n -1 > /tmp/fingerprint2.txt;$c3 > /tmp/fingerprint3.txt;cat /tmp/fingerprint3.txt | grep -i "Allow" >> /tmp/fingerprint2.txt;sed -i '0,/^HTTP\/1.1 200 OK/d' /tmp/fingerprint2.txt;cat /tmp/fingerprint2.txt >> /tmp/fingerprint.txt
                 echo >> /tmp/fingerprint.txt
                 cat /tmp/fingerprint.txt >> $target.txt;echo >> $target.txt;echo "===========================================================================" >> $target.txt;echo >> $target.txt
@@ -80,7 +80,7 @@ else
             "SSL Scan")
                 clear;echo;echo -e "\033[38;2;0;255;0m>>> Scanning...\033[m";echo
                 c1=('sslscan '$target'')
-                echo > /tmp/ssl.txt;echo -e "\033[38;2;220;20;60m${bold}>>> SSL Scans - "$target"\033[m" >> /tmp/ssl.txt
+                echo > /tmp/ssl.txt;echo -e "\033[38;2;220;20;60m${bold}>>> SSL Scans\033[m" >> /tmp/ssl.txt
                 echo >> /tmp/ssl.txt;echo -e "\033[38;2;0;255;255m~ "$c1"\033[m" >> /tmp/ssl.txt
                 sudo $c1 | tail -n +3 1>>/tmp/ssl.txt 2>/dev/null;sudo $c1 1>/dev/null 2>>/tmp/ssl.txt;echo >> /tmp/ssl.txt
                 cat /tmp/ssl.txt >> $target.txt;echo >> $target.txt;echo "===========================================================================" >> $target.txt;echo >> $target.txt
@@ -88,6 +88,21 @@ else
                 cat /tmp/ssl.txt
                 read -p $'\033[38;2;255;215;0m< Press ENTER to continue >\033[m'
                 rm -rf /tmp/ssl.txt
+                exec $0 $1
+                ;;
+            "Check WAF")
+                clear;echo;echo -e "\033[38;2;0;255;0m>>> Scanning...\033[m";echo
+                c1=('wafw00f -o - http://'$target'')
+                c2=('wafw00f -o - https://'$target'')
+                sudo $c1 > /tmp/waf.txt 2>/dev/null;sudo $c2 >> /tmp/waf.txt 2>/dev/null
+                echo > /tmp/wafs.txt;echo -e "\033[38;2;220;20;60m${bold}>>> WAF\033[m" >> /tmp/wafs.txt
+                echo >> /tmp/wafs.txt;echo -e "\033[38;2;0;255;255m~ "$c1"\033[m" >> /tmp/wafs.txt;echo -e "\033[38;2;0;255;255m~ "$c2"\033[m" >> /tmp/wafs.txt;echo >> /tmp/wafs.txt
+                cat /tmp/waf.txt | sed 's/^...//' | sed 's/   /  -  /' | sed 's/None (None)/None/' | sed 's/Generic (Unknown)/Unknown/' >> /tmp/wafs.txt;echo >> /tmp/wafs.txt
+                cat /tmp/wafs.txt >> $target.txt;echo >> $target.txt;echo "===========================================================================" >> $target.txt;echo >> $target.txt
+                clear
+                cat /tmp/wafs.txt
+                read -p $'\033[38;2;255;215;0m< Press ENTER to continue >\033[m'
+                rm -rf /tmp/waf.txt /tmp/wafs.txt
                 exec $0 $1
                 ;;
             "Subdomains Enumeration")
