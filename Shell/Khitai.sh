@@ -163,7 +163,7 @@ else
                 cat /tmp/udp.txt | head -n -3 | tail -n +2 | egrep "/udp|Nmap|STATE" >> /tmp/udpscan.txt;echo >> /tmp/udpscan.txt
                 cat /tmp/udpscan.txt >> $target.txt;echo >> $target.txt;echo "===========================================================================" >> $target.txt;echo >> $target.txt
                 clear
-                cat /tmp/udp.txt
+                cat /tmp/udpscan.txt
                 read -p $'\033[38;2;255;215;0m< Press ENTER to continue >\033[m'
                 rm -rf /tmp/udp.txt /tmp/udpscan.txt
                 exec $0 $1
