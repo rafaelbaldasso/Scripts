@@ -138,7 +138,7 @@ else
                 c2=('waybackurls -no-subs')
                 echo $target | $c2 > /tmp/wayback.txt
                 sed -i '/'$url'\/$/d' /tmp/wayback.txt
-                cat /tmp/wayback.txt | egrep -v ".svg|.eot|.ttf|.woff|.css|.ico|.js|.gif|.jpg|.png|.jpeg" >> /tmp/discovery.txt;cat /tmp/discovery.txt | sort -u > /tmp/wayback.txt
+                cat /tmp/wayback.txt | egrep -i -v ".svg|.eot|.ttf|.woff|.css|.ico|.js|.gif|.jpg|.png|.jpeg" >> /tmp/discovery.txt;cat /tmp/discovery.txt | sort -u > /tmp/wayback.txt
                 echo > /tmp/discovery.txt;echo -e "\033[38;2;220;20;60m${bold}>>> Discovery\033[m" >> /tmp/discovery.txt;echo >> /tmp/discovery.txt;echo -e "\033[38;2;0;255;255m~ "$c1"\033[m" >> /tmp/discovery.txt;echo -e "\033[38;2;0;255;255m~ echo "$target" | "$c2"\033[m" >> /tmp/discovery.txt;echo >> /tmp/discovery.txt
                 cat /tmp/wayback.txt >> /tmp/discovery.txt;echo >> /tmp/discovery.txt
                 cat /tmp/discovery.txt >> $target.txt;echo >> $target.txt;echo "===========================================================================" >> $target.txt;echo >> $target.txt
@@ -153,7 +153,7 @@ else
                 c1=('nmap -n -Pn -sSV -p- -T4 --open '$target'')
                 $c1 > /tmp/tcp.txt
                 echo > /tmp/tcpscan.txt;echo -e "\033[38;2;220;20;60m${bold}>>> TCP Ports Scan\033[m" >> /tmp/tcpscan.txt;echo >> /tmp/tcpscan.txt;echo -e "\033[38;2;0;255;255m~ "$c1"\033[m" >> /tmp/tcpscan.txt;echo >> /tmp/tcpscan.txt
-                cat /tmp/tcp.txt | head -n -3 | tail -n +2 | egrep "/tcp|Nmap|STATE" >> /tmp/tcpscan.txt;echo >> /tmp/tcpscan.txt
+                cat /tmp/tcp.txt | head -n -3 | tail -n +5  >> /tmp/tcpscan.txt;echo >> /tmp/tcpscan.txt
                 cat /tmp/tcpscan.txt >> $target.txt;echo >> $target.txt;echo "===========================================================================" >> $target.txt;echo >> $target.txt
                 clear
                 cat /tmp/tcpscan.txt
