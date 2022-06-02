@@ -13,6 +13,7 @@
 # Shcheck -> wget https://raw.githubusercontent.com/santoru/shcheck/master/shcheck.py
 # SSLScan -> apt install sslscan
 # WhatWeb -> apt install whatweb
+# Slowloris -> wget https://raw.githubusercontent.com/Ogglas/Orignal-Slowloris-HTTP-DoS/master/slowloris.pl
 
 clear
 echo -e "\033[38;2;220;20;60m
@@ -33,15 +34,20 @@ echo -e "\033[38;2;220;20;60m
 
 if [ "$1" == "" ]
 then
-    echo;echo -e "\033[38;2;255;228;181m[>] Usage: $0 <target>\033[m"
-    echo -e "\033[38;2;255;228;181m[>] Example: $0 github.com\033[m";echo
+    echo;echo -e "\033[38;2;255;228;181m[>] Usage: sudo $0 <target>\033[m"
+    echo -e "\033[38;2;255;228;181m[>] Example: sudo $0 github.com\033[m";echo
 else
+    if [ "$EUID" -ne 0 ]
+    then
+        echo;echo "[!] The tool must be executed as root!";echo
+        exit
+    fi
     target=$1
     PATH=$PATH:/root/go/bin
     bold=$(tput bold)
     echo;echo -e "\033[38;2;255;228;181m* All results are saved to $(pwd)/"$target".txt\033[m";echo
     PS3=$'\n''-> '
-    options=("Security Headers" "Fingerprint Web Server" "SSL Scan" "Check WAF" "Subdomains Enumeration" "Discovery" "TCP Ports Scan" "UDP Ports Scan" "Quit")
+    options=("Security Headers" "Fingerprint Web Server" "SSL Scan" "Check WAF" "Subdomains Enumeration" "Discovery" "TCP Ports Scan" "UDP Ports Scan" "Slowloris DoS Test" "Quit")
     select opt in "${options[@]}"
     do
         case $opt in
@@ -50,9 +56,9 @@ else
                 c1=('python3 shcheck.py http://'$target'')
                 c2=('python3 shcheck.py https://'$target'')
                 echo > /tmp/headers.txt;echo -e "\033[38;2;220;20;60m${bold}>>> Security Headers (HTTP)\033[m" >> /tmp/headers.txt;echo >> /tmp/headers.txt;echo -e "\033[38;2;0;255;255m~ "$c1"\033[m" >> /tmp/headers.txt;echo >> /tmp/headers.txt
-                sudo $c1 | egrep "Analyzing headers|Effective URL|Missing|unreachable" | cut -d '(' -f1 >> /tmp/headers.txt
+                $c1 | egrep "Analyzing headers|Effective URL|Missing|unreachable" | cut -d '(' -f1 >> /tmp/headers.txt
                 echo >> /tmp/headers.txt;echo -e "\033[38;2;220;20;60m${bold}>>> Security Headers (HTTPS)\033[m" >> /tmp/headers.txt;echo >> /tmp/headers.txt;echo -e "\033[38;2;0;255;255m~ "$c2"\033[m" >> /tmp/headers.txt;echo >> /tmp/headers.txt
-                sudo $c2 | egrep "Analyzing headers|Effective URL|Missing|unreachable" | cut -d '(' -f1 >> /tmp/headers.txt
+                $c2 | egrep "Analyzing headers|Effective URL|Missing|unreachable" | cut -d '(' -f1 >> /tmp/headers.txt
                 echo >> /tmp/headers.txt
                 cat /tmp/headers.txt >> $target.txt;echo >> $target.txt;echo "===========================================================================" >> $target.txt;echo >> $target.txt
                 clear
@@ -67,7 +73,7 @@ else
                 c2=('curl -I '$target' -L -k -s')
                 c3=('curl -I '$target' -L -k -X OPTIONS -s')
                 echo > /tmp/fingerprint.txt;echo -e "\033[38;2;220;20;60m${bold}>>> Fingerprint Web Server\033[m" >> /tmp/fingerprint.txt;echo >> /tmp/fingerprint.txt;echo -e "\033[38;2;0;255;255m~ "$c1"\033[m" >> /tmp/fingerprint.txt;echo -e "\033[38;2;0;255;255m~ "$c2"\033[m" >> /tmp/fingerprint.txt;echo -e "\033[38;2;0;255;255m~ "$c3"\033[m" >> /tmp/fingerprint.txt
-                sudo $c1 > /tmp/fingerprint1.txt;cat /tmp/fingerprint1.txt | sed 's/, /?/g' | tr '?' '\n' | sed 's/^http/?http/' | tr '?' '\n' >> /tmp/fingerprint.txt;echo >> /tmp/fingerprint.txt
+                $c1 > /tmp/fingerprint1.txt;cat /tmp/fingerprint1.txt | sed 's/, /?/g' | tr '?' '\n' | sed 's/^http/?http/' | tr '?' '\n' >> /tmp/fingerprint.txt;echo >> /tmp/fingerprint.txt
                 $c2 | head -n -1 > /tmp/fingerprint2.txt;$c3 > /tmp/fingerprint3.txt;cat /tmp/fingerprint3.txt | grep -i "Allow" >> /tmp/fingerprint2.txt;sed -i '0,/^HTTP\/1.1 200 OK/d' /tmp/fingerprint2.txt;cat /tmp/fingerprint2.txt >> /tmp/fingerprint.txt
                 echo >> /tmp/fingerprint.txt
                 cat /tmp/fingerprint.txt >> $target.txt;echo >> $target.txt;echo "===========================================================================" >> $target.txt;echo >> $target.txt
@@ -82,7 +88,7 @@ else
                 c1=('sslscan '$target'')
                 echo > /tmp/ssl.txt;echo -e "\033[38;2;220;20;60m${bold}>>> SSL Scans\033[m" >> /tmp/ssl.txt
                 echo >> /tmp/ssl.txt;echo -e "\033[38;2;0;255;255m~ "$c1"\033[m" >> /tmp/ssl.txt
-                sudo $c1 | tail -n +3 1>>/tmp/ssl.txt 2>/dev/null;sudo $c1 1>/dev/null 2>>/tmp/ssl.txt;echo >> /tmp/ssl.txt
+                $c1 | tail -n +3 1>>/tmp/ssl.txt 2>/dev/null;$c1 1>/dev/null 2>>/tmp/ssl.txt;echo >> /tmp/ssl.txt
                 cat /tmp/ssl.txt >> $target.txt;echo >> $target.txt;echo "===========================================================================" >> $target.txt;echo >> $target.txt
                 clear
                 cat /tmp/ssl.txt
@@ -94,7 +100,7 @@ else
                 clear;echo;echo -e "\033[38;2;0;255;0m>>> Scanning...\033[m";echo
                 c1=('wafw00f -o - http://'$target'')
                 c2=('wafw00f -o - https://'$target'')
-                sudo $c1 > /tmp/waf.txt 2>/dev/null;sudo $c2 >> /tmp/waf.txt 2>/dev/null
+                $c1 > /tmp/waf.txt 2>/dev/null;$c2 >> /tmp/waf.txt 2>/dev/null
                 echo > /tmp/wafs.txt;echo -e "\033[38;2;220;20;60m${bold}>>> WAF\033[m" >> /tmp/wafs.txt
                 echo >> /tmp/wafs.txt;echo -e "\033[38;2;0;255;255m~ "$c1"\033[m" >> /tmp/wafs.txt;echo -e "\033[38;2;0;255;255m~ "$c2"\033[m" >> /tmp/wafs.txt;echo >> /tmp/wafs.txt
                 cat /tmp/waf.txt | sed 's/^...//' | sed 's/   /  -  /' | sed 's/None (None)/None/' | sed 's/Generic (Unknown)/Unknown/' >> /tmp/wafs.txt;echo >> /tmp/wafs.txt
@@ -128,7 +134,7 @@ else
             "Discovery")
                 clear;echo;echo -e "\033[38;2;0;255;0m>>> Scanning...\033[m";echo
                 c1=('gobuster dir -u '$target' -e -x txt --hide-length -t 10 --delay 100ms --wildcard --timeout 5s -z -q -w /usr/share/seclists/Discovery/Web-Content/common-and-portuguese.txt')
-                sudo $c1 | egrep "Status: 200|Status: 301" | cut -d ' ' -f1 | tr -d '\r' | sort -u > /tmp/discovery.txt
+                $c1 | egrep "Status: 200|Status: 301" | cut -d ' ' -f1 | tr -d '\r' | sort -u > /tmp/discovery.txt
                 c2=('waybackurls -no-subs')
                 echo $target | $c2 > /tmp/wayback.txt
                 sed -i '/'$url'\/$/d' /tmp/wayback.txt
@@ -145,7 +151,7 @@ else
             "TCP Ports Scan")
                 clear;echo;echo -e "\033[38;2;0;255;0m>>> Scanning...\033[m";echo
                 c1=('nmap -n -Pn -sSV -p- -T4 --open '$target'')
-                sudo $c1 > /tmp/tcp.txt
+                $c1 > /tmp/tcp.txt
                 echo > /tmp/tcpscan.txt;echo -e "\033[38;2;220;20;60m${bold}>>> TCP Ports Scan\033[m" >> /tmp/tcpscan.txt;echo >> /tmp/tcpscan.txt;echo -e "\033[38;2;0;255;255m~ "$c1"\033[m" >> /tmp/tcpscan.txt;echo >> /tmp/tcpscan.txt
                 cat /tmp/tcp.txt | head -n -3 | tail -n +2 | egrep "/tcp|Nmap|STATE" >> /tmp/tcpscan.txt;echo >> /tmp/tcpscan.txt
                 cat /tmp/tcpscan.txt >> $target.txt;echo >> $target.txt;echo "===========================================================================" >> $target.txt;echo >> $target.txt
@@ -158,7 +164,7 @@ else
             "UDP Ports Scan")
                 clear;echo;echo -e "\033[38;2;0;255;0m>>> Scanning...\033[m";echo
                 c1=('nmap -n -Pn -sUV -T4 --top-ports=20 --open '$target'')
-                sudo $c1 | grep -v "filtered" > /tmp/udp.txt
+                $c1 | grep -v "filtered" > /tmp/udp.txt
                 echo > /tmp/udpscan.txt;echo -e "\033[38;2;220;20;60m${bold}>>> UDP Ports Scan\033[m" >> /tmp/udpscan.txt;echo >> /tmp/udpscan.txt;echo -e "\033[38;2;0;255;255m~ "$c1"\033[m" >> /tmp/udpscan.txt;echo >> /tmp/udpscan.txt
                 cat /tmp/udp.txt | head -n -3 | tail -n +2 | egrep "/udp|Nmap|STATE" >> /tmp/udpscan.txt;echo >> /tmp/udpscan.txt
                 cat /tmp/udpscan.txt >> $target.txt;echo >> $target.txt;echo "===========================================================================" >> $target.txt;echo >> $target.txt
@@ -166,6 +172,20 @@ else
                 cat /tmp/udpscan.txt
                 read -p $'\033[38;2;255;215;0m< Press ENTER to continue >\033[m'
                 rm -rf /tmp/udp.txt /tmp/udpscan.txt
+                exec $0 $1
+                ;;
+            "Slowloris DoS Test")
+                clear;echo
+                read -p $'\033[38;2;220;20;60m-> Target\'s port: \033[m' p
+                clear;echo;echo -e "\033[38;2;0;255;0m>>> Scanning...\033[m";echo
+                c1=('perl slowloris.pl -dns '$target' -port '$p' -test')
+                echo > /tmp/dos.txt;echo -e "\033[38;2;220;20;60m${bold}>>> Slowloris DoS Test\033[m" >> /tmp/dos.txt;echo >> /tmp/dos.txt;echo -e "\033[38;2;0;255;255m~ "$c1"\033[m" >> /tmp/dos.txt;echo >> /tmp/dos.txt
+                $c1 > /tmp/sl.txt;cat /tmp/sl.txt | egrep "Trying|Worked|Failed|Uhm" >> /tmp/dos.txt;echo >> /tmp/dos.txt
+                cat /tmp/dos.txt >> $target.txt;echo >> $target.txt;echo "===========================================================================" >> $target.txt;echo >> $target.txt
+                clear
+                cat /tmp/dos.txt
+                read -p $'\033[38;2;255;215;0m< Press ENTER to continue >\033[m'
+                rm -rf /tmp/dos.txt /tmp/sl.txt
                 exec $0 $1
                 ;;
             "Quit")
