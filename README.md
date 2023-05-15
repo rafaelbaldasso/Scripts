@@ -29,6 +29,7 @@
 * [**dorking_files.sh**](https://github.com/rafaelbaldasso/Tools/blob/main/Shell/dorking_files.sh) - perform a google dorking and search for files in a website
 * [**hashing_wordlist.sh**](https://github.com/rafaelbaldasso/Tools/blob/main/Shell/hashing_wordlist.sh) - take a wordlist and hash the contents into a new wordlist
 * [**html_parsing.sh**](https://github.com/rafaelbaldasso/Tools/blob/main/Shell/html_parsing.sh) - perform an HTML parsing of a website
+* [**kali_config.sh**](https://github.com/rafaelbaldasso/Tools/blob/main/Shell/kali_config.sh) - basic configuration of a new Kali Linux
 * [**metaXtract.sh**](https://github.com/rafaelbaldasso/Tools/blob/main/Shell/metaXtract.sh) - search for indexed files in a website, download them and extract their metadata
 * [**network_port_scan.sh**](https://github.com/rafaelbaldasso/Tools/blob/main/Shell/network_port_scan.sh) - scan for an specific open port in the network hosts
 * [**ping_sweep.sh**](https://github.com/rafaelbaldasso/Tools/blob/main/Shell/ping_sweep.sh) - perform a ping sweep (ICMP) in the network
