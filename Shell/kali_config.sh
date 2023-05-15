@@ -2,6 +2,12 @@
 
 # Basic configuration of a new Kali Linux
 
+if [ "$EUID" -ne 0 ]
+    then
+        echo;echo "[!] You must run the script as root!";echo
+        exit
+fi
+
 apt-get update
 apt-get upgrade -y
 python3 -m pip install --upgrade pip
