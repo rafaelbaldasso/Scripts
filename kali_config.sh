@@ -8,16 +8,16 @@ if [ "$EUID" -ne 0 ]
         exit
 fi
 
-apt-get update
-apt-get upgrade -y
+timedatectl set-timezone America/Sao_Paulo
+apt update && apt upgrade -y && apt autoremove -y && apt autoclean
 python3 -m pip install --upgrade pip
 wget https://bootstrap.pypa.io/pip/2.7/get-pip.py
 python2.7 get-pip.py
 rm -rf get-pip.py
 python2.7 -m pip install --upgrade pip
-updatedb
 systemctl enable postgresql
 service start postgresql
 msfdb init
+updatedb
 printf "%s " "Press enter to finish"
 read ans
