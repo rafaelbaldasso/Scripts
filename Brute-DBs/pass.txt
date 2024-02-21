@@ -1,0 +1,9 @@
+sa
+admin
+administrator
+administrador
+dbadmin
+db
+sqlserver
+sql
+root
