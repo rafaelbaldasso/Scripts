@@ -1,6 +1,5 @@
 ### # Pentesting / cybersecurity scripts
 
-* [**db-spray.sh**](https://github.com/rafaelbaldasso/Scripts/blob/main/db-spray.sh) - Database brute force/password spraying tool
 * [**dorking_files.sh**](https://github.com/rafaelbaldasso/Scripts/blob/main/dorking_files.sh) - Google dorking tool to search for files in a website
 * [**hashcode.py**](https://github.com/rafaelbaldasso/Scripts/blob/main/hashcode.py) - Hash/encode data (base64, md5, sha)
 * [**html_parsing.sh**](https://github.com/rafaelbaldasso/Scripts/blob/main/html_parsing.sh) - HTML parsing of a website
