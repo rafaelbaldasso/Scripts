@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Requires a users.txt and pass.txt wordlists
+# This repository contains both wordlists with common database users/passwords
+
 if [ "$1" == "" ]; then
     echo;echo "[>] Usage: $0 <target>"
     exit
