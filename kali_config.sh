@@ -16,7 +16,7 @@ python2.7 get-pip.py
 rm -rf get-pip.py
 python2.7 -m pip install --upgrade pip
 systemctl enable postgresql
-service start postgresql
+service postgresql start
 msfdb init
 updatedb
 printf "%s " "Press enter to finish"
