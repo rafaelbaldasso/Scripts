@@ -1,20 +1,14 @@
 param($subnet, $ports)
 if (-not $subnet -or -not $ports) {
-    echo ""
-    echo " [#] Network Ports Scan"
-    echo ""
-    echo " [>] Usage: .\network_ports_scan.ps1 SUBNET PORTS"
-    echo " [>] Example: .\network_ports_scan.ps1 192.168.0.0/24 80,443,445"
-    echo ""
+    Write-Output "`n [#] Subnet Port Scan"
+    Write-Output "`n [>] Usage: .\subnet_port_scan.ps1 SUBNET PORTS"
+    Write-Output " [>] Example: .\subnet_port_scan.ps1 192.168.0.0/24 80,443,445`n"
 } else {
     $ipBase = ($subnet -replace "\.\d{1,3}/\d{1,2}$", "")
     $portList = $ports -split "," | ForEach-Object { $_.Trim() }
-    echo ""
-    echo " [#] Network Ports Scan"
-    echo ""
-    echo " [>] Target Subnet: $subnet"
-    echo " [>] Ports: $ports"
-    echo ""
+    Write-Output "`n [#] Subnet Port Scan"
+    Write-Output "`n [>] Target Subnet: $subnet"
+    Write-Output "`n [>] Ports: $ports`n"
     trap {
         break
     }
@@ -27,8 +21,8 @@ if (-not $subnet -or -not $ports) {
             }
         }
         if ($openPorts.Count -gt 0) {
-            echo " [+] Host: $targetIP - Open Ports: $($openPorts -join ', ')"
+            Write-Output " [+] Host: $targetIP - Open Ports: $($openPorts -join ', ')"
         }
     }
-    echo ""
+    Write-Output ""
 }
